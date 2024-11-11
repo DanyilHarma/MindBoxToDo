@@ -1,0 +1,32 @@
+.todoContainer {
+    position: relative;
+    margin: 0 auto;
+    border: 1px solid #000;
+    background-color: #202323;
+    width: 100%;
+    max-width: 1000px;
+    height: 500px;
+
+    h1 {
+        color: #b5b5b5;
+        text-align: center;
+    }
+
+    .openPopup {
+        position: absolute;
+        top: 90%;
+        right: 1%;
+        width: fit-content;
+        padding: 10px 10px;
+        font-weight: 700;
+        border-radius: 10px;
+        background-color: #787878;
+        cursor: pointer;
+        user-select: none;
+        transition: background-color .3s;
+
+        &:hover {
+            background-color: #464545;
+        }
+    }
+}

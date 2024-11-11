@@ -1,0 +1,60 @@
+.taskList {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    height: 90%;
+    overflow: auto;
+
+    .taskContainer {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        .isCompleted {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #000;
+            cursor: pointer;
+
+            &.true {
+                position: relative;
+
+                &::before {
+                    content: url(/src/assets/icons8-галочка.svg);
+                    position: absolute;
+                    top: 5%;
+                    left: 15%;
+                }
+            }
+        }
+
+        .task {
+            position: relative;
+            display: inline-block;
+            font-size: 20px;
+            color: #fff;
+            text-transform: capitalize;
+
+            &::before {
+                content: "";
+                position: absolute;
+                top: 55%;
+                left: 0;
+                width: 0;
+                height: 5px;
+                background-color: #000;
+                transition: width 0.3s ease;
+                transform: translateY(-50%);
+            }
+
+            &.true {
+                color: grey;
+            }
+
+            &.true::before {
+                width: 100%;
+            }
+
+        }
+    }
+}
