@@ -5,18 +5,21 @@ import AddTask from "./addTask/addTask";
 import { useTodoState } from "../../../hooks/todoState";
 
 const TodoContent: React.FC = () => {
+    const { state, setTasks, setTaskInput, setCompleted, setCategory, setIsPopup } = useTodoState();
 
-    const { state, setTasks, setTaskInput, setCompleted, setIsPopup } = useTodoState();
+
 
     const addTask = () => {
-        if (state.taskInput.trim()) {
+        if (state.taskInput.trim() && state.category) {
             const newTask: Task = {
                 id: Date.now(),
                 text: state.taskInput,
-                completed: false
+                completed: false,
+                category: state.category
             };
             setTasks([...state.tasks, newTask]);
             setTaskInput("");
+            setCategory("");
         };
     };
 
@@ -34,7 +37,7 @@ const TodoContent: React.FC = () => {
             <div className={classes.openPopup} onClick={handleOpenPopup}>
                 Add Task
             </div>
-            {state.isPopup && (<AddTask addTask={addTask} setTaskInput={handleChangeTaskInput} value={state.taskInput} />)}
+            {state.isPopup && (<AddTask addTask={addTask} setTaskInput={handleChangeTaskInput} value={state.taskInput} category={state.category} setCategory={setCategory} />)}
         </div>
     );
 };

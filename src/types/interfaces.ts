@@ -1,7 +1,8 @@
 export interface Task {
     id: number,
     text: string,
-    completed: boolean
+    completed: boolean,
+    category: string
 }
 
 export interface TodoState {
@@ -9,4 +10,5 @@ export interface TodoState {
     taskInput: string;
     isCompleted: boolean;
     isPopup: boolean;
+    category: string;
 }

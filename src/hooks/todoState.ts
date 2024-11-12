@@ -11,7 +11,8 @@ export const useTodoState = () => {
             tasks: savedTasks ? JSON.parse(savedTasks) : initialTasks,
             taskInput: "",
             isCompleted: false,
-            isPopup: false
+            isPopup: false,
+            category: ""
         }
     })
 
@@ -33,8 +34,10 @@ export const useTodoState = () => {
         });
     };
 
+    const setCategory = (category: string) => setState(prevState => ({ ...prevState, category }))
+
     const setIsPopup = (isPopup: boolean) => setState(prevState => ({ ...prevState, isPopup }));
 
-    return { state, setTasks, setTaskInput, setCompleted, setIsPopup }
+    return { state, setTasks, setTaskInput, setCompleted, setCategory, setIsPopup }
 }
 
