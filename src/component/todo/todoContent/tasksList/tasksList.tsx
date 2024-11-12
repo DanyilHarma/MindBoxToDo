@@ -1,5 +1,6 @@
 import { Task } from "../../../../types/interfaces";
 import classes from "./tasksList.module.css"
+import importanceIcon from "../../../../assets/icons8-огонь-24.png"
 
 interface TasksListProps {
     tasks: Task[];
@@ -15,6 +16,7 @@ const TasksList: React.FC<TasksListProps> = ({ tasks, setCompleted }) => {
                     <span className={`${classes.task} ${task.completed ? classes.true : ""}`} onClick={() => setCompleted(task.id)}>
                         {task.text}
                     </span>
+                    {task.importance && (<img src={importanceIcon} alt="" />)}
                 </div>
             ))}
         </div>

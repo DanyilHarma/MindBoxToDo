@@ -3,9 +3,17 @@
     flex-direction: column;
     gap: 25px;
 
+    h4 {
+        margin: 0;
+    }
+
     div {
         display: flex;
         gap: 10px;
+
+        input[type="radio"] {
+            margin: 0;
+        }
 
         label {
             text-transform: uppercase;

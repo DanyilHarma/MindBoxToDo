@@ -1,43 +1,43 @@
 import { useState } from "react";
-import { Task, TodoState } from "../types/interfaces";
+import { Task } from "../types/interfaces";
 import { initialTasks } from "../data/initialTasks";
 
 const TASKS_KEY = "tasks";
 
 export const useTodoState = () => {
-    const [state, setState] = useState<TodoState>(() => {
+    const [tasks, setTasks] = useState<Task[]>(() => {
         const savedTasks = sessionStorage.getItem(TASKS_KEY);
-        return {
-            tasks: savedTasks ? JSON.parse(savedTasks) : initialTasks,
-            taskInput: "",
-            isCompleted: false,
-            isPopup: false,
-            category: ""
-        }
+        return savedTasks ? JSON.parse(savedTasks) : initialTasks;
     })
 
-    const setTasks = (tasks: Task[]) => setState(prevState => {
-        const newState = { ...prevState, tasks };
-        sessionStorage.setItem(TASKS_KEY, JSON.stringify(tasks));
-        return newState;
-    });
+    const saveTask = (updatedTasks: Task[]) => {
+        sessionStorage.setItem(TASKS_KEY, JSON.stringify(updatedTasks));
+        setTasks(updatedTasks);
+    }
 
-    const setTaskInput = (taskInput: string) => setState(prevState => ({ ...prevState, taskInput }));
 
-    const setCompleted = (id: number) => {
-        setState(prevState => {
-            const updatedTasks = prevState.tasks.map(task =>
-                task.id === id ? { ...task, completed: !task.completed } : task
-            );
-            sessionStorage.setItem(TASKS_KEY, JSON.stringify(updatedTasks));
-            return { ...prevState, tasks: updatedTasks };
-        });
+    const toggleCompleted = (id: number) => {
+        const updatedTasks = tasks.map(task =>
+            task.id === id ? { ...task, completed: !task.completed } : task
+        );
+        saveTask(updatedTasks);
     };
 
-    const setCategory = (category: string) => setState(prevState => ({ ...prevState, category }))
 
-    const setIsPopup = (isPopup: boolean) => setState(prevState => ({ ...prevState, isPopup }));
+    const addTask = (text: string, category: string, importance: boolean) => {
+        if (text.trim() && category) {
+            const newTask: Task = {
+                id: Date.now(),
+                text,
+                completed: false,
+                category,
+                importance
+            };
+            const updatedTasks = importance ? [newTask, ...tasks] : [...tasks, newTask];
+            saveTask(updatedTasks);
+        };
+    };
 
-    return { state, setTasks, setTaskInput, setCompleted, setCategory, setIsPopup }
+    return { tasks, toggleCompleted, addTask }
 }
 

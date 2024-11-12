@@ -1,43 +1,24 @@
 import TasksList from "./tasksList/tasksList"
 import classes from "./todoContent.module.css"
-import { Task } from "../../../types/interfaces";
 import AddTask from "./addTask/addTask";
 import { useTodoState } from "../../../hooks/todoState";
+import { useState } from "react";
 
 const TodoContent: React.FC = () => {
-    const { state, setTasks, setTaskInput, setCompleted, setCategory, setIsPopup } = useTodoState();
+    const { tasks, toggleCompleted, addTask } = useTodoState();
+    const [isPopup, setIsPopup] = useState(false);
 
-
-
-    const addTask = () => {
-        if (state.taskInput.trim() && state.category) {
-            const newTask: Task = {
-                id: Date.now(),
-                text: state.taskInput,
-                completed: false,
-                category: state.category
-            };
-            setTasks([...state.tasks, newTask]);
-            setTaskInput("");
-            setCategory("");
-        };
-    };
-
-    const handleChangeTaskInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setTaskInput(event.target.value);
-    };
-
-    const handleOpenPopup = () => {
-        setIsPopup(!state.isPopup);
+    const handleAddTask = (text: string, category: string, importance: boolean) => {
+        addTask(text, category, importance)
     };
 
     return (
         <div className={classes.todoContent}>
-            <TasksList tasks={state.tasks} setCompleted={setCompleted} />
-            <div className={classes.openPopup} onClick={handleOpenPopup}>
+            <TasksList tasks={tasks} setCompleted={toggleCompleted} />
+            <div className={classes.openPopup} onClick={() => setIsPopup(true)}>
                 Add Task
             </div>
-            {state.isPopup && (<AddTask addTask={addTask} setTaskInput={handleChangeTaskInput} value={state.taskInput} category={state.category} setCategory={setCategory} />)}
+            {isPopup && (<AddTask onAddTask={handleAddTask} closePopup={() => setIsPopup(false)} />)}
         </div>
     );
 };
