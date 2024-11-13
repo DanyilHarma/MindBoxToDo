@@ -2,13 +2,16 @@
   "name": "todo",
   "private": true,
   "version": "0.0.0",
+  "homepage": "https://DanyilHarma.github.io/MindBoxTodo",
   "type": "module",
   "scripts": {
     "start": "vite",
     "build": "tsc -b && vite build",
     "test": "jest",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "jest": "^29.7.0",
@@ -27,6 +30,7 @@
     "eslint": "^9.13.0",
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.14",
+    "gh-pages": "^6.2.0",
     "globals": "^15.11.0",
     "identity-obj-proxy": "^3.0.0",
     "jest-environment-jsdom": "^29.7.0",
