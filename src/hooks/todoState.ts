@@ -44,10 +44,12 @@ export const useTodoState = () => {
     };
 
     useEffect(() => {
+        const timersCopy = { ...timers.current };
         return () => {
-            Object.values(timers.current).forEach(clearTimeout);
+            Object.values(timersCopy).forEach(clearTimeout);
         };
     }, []);
+
 
     const addTask = (text: string, category: string, importance: boolean) => {
         if (text.trim() && category) {
