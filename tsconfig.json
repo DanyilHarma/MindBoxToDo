@@ -18,7 +18,9 @@
     "esModuleInterop": true,
     "module": "commonjs",
     "moduleResolution": "node",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "declaration": true,
+    "declarationMap": true
   },
   "include": [
     "src",
