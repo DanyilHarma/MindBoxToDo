@@ -1,0 +1,17 @@
+.completed {
+    position: absolute;
+    top: 98%;
+    left: 1%;
+    width: fit-content;
+    padding: 10px 10px;
+    font-weight: 700;
+    border-radius: 10px;
+    background-color: #787878;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color .3s;
+
+    &:hover {
+        background-color: #464545;
+    }
+}
