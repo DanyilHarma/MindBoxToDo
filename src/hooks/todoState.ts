@@ -8,12 +8,12 @@ export const useTodoState = () => {
     const [tasks, setTasks] = useState<Task[]>(() => {
         const savedTasks = sessionStorage.getItem(TASKS_KEY);
         return savedTasks ? JSON.parse(savedTasks) : initialTasks;
-    })
+    });
 
     const saveTask = (updatedTasks: Task[]) => {
         sessionStorage.setItem(TASKS_KEY, JSON.stringify(updatedTasks));
         setTasks(updatedTasks);
-    }
+    };
 
 
     const toggleCompleted = (id: number) => {
@@ -38,6 +38,6 @@ export const useTodoState = () => {
         };
     };
 
-    return { tasks, toggleCompleted, addTask }
-}
+    return { tasks, toggleCompleted, addTask };
+};
 
