@@ -9,14 +9,16 @@
     }
   ],
   "compilerOptions": {
+    "target": "es2017",
+    "lib": [
+      "dom",
+      "es2017"
+    ],
     "jsx": "react-jsx",
     "esModuleInterop": true,
     "module": "commonjs",
-    "types": [
-      "jest",
-      "@testing-library/jest-dom"
-    ],
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "skipLibCheck": true
   },
   "include": [
     "src",

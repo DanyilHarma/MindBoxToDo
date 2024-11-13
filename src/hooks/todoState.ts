@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Task } from "../types/interfaces";
 import { initialTasks } from "../data/initialTasks";
 
@@ -15,14 +15,39 @@ export const useTodoState = () => {
         setTasks(updatedTasks);
     };
 
+    const timers = useRef<{ [key: number]: NodeJS.Timeout }>({});
 
     const toggleCompleted = (id: number) => {
-        const updatedTasks = tasks.map(task =>
-            task.id === id ? { ...task, completed: !task.completed } : task
-        );
+        const updatedTasks = tasks.map(task => {
+            if (task.id === id) {
+                if (task.isPending) {
+                    clearTimeout(timers.current[id]);
+                    delete timers.current[id];
+                    return { ...task, isPending: false };
+                } else if (!task.completed) {
+                    const timeoutId = setTimeout(() => {
+                        const updatedTasksAfterTimeout = tasks.map(t =>
+                            t.id === id ? { ...t, completed: true, isPending: false } : t
+                        );
+                        saveTask(updatedTasksAfterTimeout);
+                        delete timers.current[id];
+                    }, 1000);
+                    timers.current[id] = timeoutId;
+                    return { ...task, isPending: true };
+                } else {
+                    return { ...task, completed: false };
+                }
+            }
+            return task;
+        });
         saveTask(updatedTasks);
     };
 
+    useEffect(() => {
+        return () => {
+            Object.values(timers.current).forEach(clearTimeout);
+        };
+    }, []);
 
     const addTask = (text: string, category: string, importance: boolean) => {
         if (text.trim() && category) {

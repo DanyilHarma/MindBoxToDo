@@ -7,8 +7,14 @@ jest.mock("../data/initialTasks.ts", () => ({
 
 describe("useTodoState hook", () => {
     beforeEach(() => {
+        jest.useFakeTimers();
         sessionStorage.clear();
     });
+
+    afterEach(() => {
+        jest.useRealTimers();
+    });
+
     it("adds a task with the specified category and importance", () => {
         const { result } = renderHook(() => useTodoState());
 
@@ -66,7 +72,53 @@ describe("useTodoState hook", () => {
             result.current.toggleCompleted(addedTaskId!);
         });
 
+        // Симулируем истечение времени
+        act(() => {
+            jest.advanceTimersByTime(1000); // Предполагая, что задержка 1 секунда
+        });
+
         // Проверяем, что задача теперь завершена
         expect(result.current.tasks.find(task => task.id === addedTaskId)?.completed).toBe(true);
+    });
+
+
+    it('cancels moving a task to completed if the user cancels the action before the timer expires', () => {
+        const { result } = renderHook(() => useTodoState());
+
+        act(() => {
+            result.current.addTask('Test Task', 'testing', false);
+        });
+
+        const addedTaskId = result.current.tasks.find(task => task.text === 'Test Task')?.id;
+        expect(addedTaskId).toBeDefined();
+
+        // Отмечаем задачу как выполненную (начинается ожидание)
+        act(() => {
+            result.current.toggleCompleted(addedTaskId!);
+        });
+
+        // Проверяем, что задача в состоянии ожидания
+        let task = result.current.tasks.find(task => task.id === addedTaskId);
+        expect(task?.isPending).toBe(true);
+        expect(task?.completed).toBe(false);
+
+        // Отменяем действие до истечения таймера
+        act(() => {
+            result.current.toggleCompleted(addedTaskId!);
+        });
+
+        // Проверяем, что задача не в состоянии ожидания и не выполнена
+        task = result.current.tasks.find(task => task.id === addedTaskId);
+        expect(task?.isPending).toBe(false);
+        expect(task?.completed).toBe(false);
+
+        // Продвигаем таймер вперёд на 1 секунду
+        act(() => {
+            jest.advanceTimersByTime(1000);
+        });
+
+        // Убеждаемся, что задача не стала выполненной после истечения времени
+        task = result.current.tasks.find(task => task.id === addedTaskId);
+        expect(task?.completed).toBe(false);
     });
 });

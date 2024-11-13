@@ -12,8 +12,10 @@ const TasksList: React.FC<TasksListProps> = ({ tasks, setCompleted }) => {
         <div className={classes.taskList}>
             {tasks.map(task => (
                 <div key={task.id} className={classes.taskContainer}>
-                    <div className={`${classes.isCompleted} ${task.completed ? classes.true : ""}`} onClick={() => setCompleted(task.id)}></div>
-                    <span className={`${classes.task} ${task.completed ? classes.true : ""}`} onClick={() => setCompleted(task.id)}>
+                    <div className={`${classes.isCompleted} ${task.isPending ? classes.true : ""}  ${task.completed ? classes.true : ""}`}
+                        onClick={() => setCompleted(task.id)}></div>
+                    <span className={`${classes.task} ${task.isPending ? classes.true : ""} ${task.completed ? classes.true : ""}`}
+                        onClick={() => setCompleted(task.id)}>
                         {task.text}
                     </span>
                     {task.importance && (<img src={importanceIcon} alt="" />)}

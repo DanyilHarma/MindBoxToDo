@@ -3,5 +3,6 @@ export interface Task {
     text: string,
     completed: boolean,
     category: string,
-    importance: boolean
+    importance: boolean,
+    isPending?: boolean
 }
