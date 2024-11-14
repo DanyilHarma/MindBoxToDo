@@ -1,7 +1,7 @@
 import classes from "./addTask.module.css"
 import close from "../../../../assets/icons8-отмена.svg"
 import Category from "./category/category";
-import { useState } from "react";
+import { memo, useState } from "react";
 
 interface AddTaskProps {
     onAddTask: (text: string, category: string, importance: boolean) => void;
@@ -39,4 +39,4 @@ const AddTask: React.FC<AddTaskProps> = ({ onAddTask, closePopup }) => {
     )
 }
 
-export default AddTask;
+export default memo(AddTask);

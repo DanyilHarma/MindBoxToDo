@@ -1,4 +1,4 @@
-import { categories } from "../../../../data/initialTasks";
+import { categories } from "../../../../data/categories";
 import classes from "./categoriesButton.module.css"
 
 interface ButtonProps {

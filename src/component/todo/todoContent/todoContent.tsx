@@ -2,7 +2,7 @@ import TasksList from "./tasksList/tasksList"
 import classes from "./todoContent.module.css"
 import AddTask from "./addTask/addTask";
 import { useTodoState } from "../../../hooks/todoState";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import CategoriesButton from "./categoriesButton/categoriesButton";
 import CompletedTask from "./completedTask/completedTask";
 
@@ -12,9 +12,9 @@ const TodoContent: React.FC = () => {
     const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
     const [showCompleted, setShowCompleted] = useState<boolean>(false);
 
-    const handleAddTask = (text: string, category: string, importance: boolean) => {
+    const handleAddTask = useCallback((text: string, category: string, importance: boolean) => {
         addTask(text, category, importance)
-    };
+    }, [addTask]);
 
     const filteredTask = tasks.filter(task => {
         if (selectedCategory && task.category !== selectedCategory) return false;

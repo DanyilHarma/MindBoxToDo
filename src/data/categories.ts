@@ -1,0 +1,1 @@
+export const categories: string[] = ["development", "sport", "music", "idea"];

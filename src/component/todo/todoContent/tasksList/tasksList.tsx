@@ -1,10 +1,11 @@
 import { Task } from "../../../../types/interfaces";
 import classes from "./tasksList.module.css"
 import importanceIcon from "../../../../assets/icons8-огонь-24.png"
+import { memo } from "react";
 
 interface TasksListProps {
     tasks: Task[];
-    setCompleted: (id: number) => void;
+    setCompleted: (id: string) => void;
 }
 
 const TasksList: React.FC<TasksListProps> = ({ tasks, setCompleted }) => {
@@ -25,4 +26,4 @@ const TasksList: React.FC<TasksListProps> = ({ tasks, setCompleted }) => {
     )
 }
 
-export default TasksList;
+export default memo(TasksList);

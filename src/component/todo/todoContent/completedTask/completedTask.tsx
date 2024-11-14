@@ -1,3 +1,4 @@
+import { memo } from "react";
 import classes from "./completedTask.module.css"
 
 interface CompletedTaskProps {
@@ -13,4 +14,4 @@ const CompletedTask: React.FC<CompletedTaskProps> = ({ setShowCompleted, isActiv
     );
 };
 
-export default CompletedTask;
+export default memo(CompletedTask);
